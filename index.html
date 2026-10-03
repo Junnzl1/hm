@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Untuk Kamu ❤️</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            color: white;
+
+            background:
+                radial-gradient(
+                    circle at 50% 45%,
+                    #24121d 0%,
+                    #0e0811 40%,
+                    #030305 100%
+                );
+        }
+
+        /* =====================================
+           BACKGROUND BINTANG
+        ====================================== */
+
+        #stars {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+
+            width: 2px;
+            height: 2px;
+
+            border-radius: 50%;
+            background: white;
+
+            opacity: 0.5;
+
+            animation:
+                twinkle
+                infinite
+                ease-in-out;
+        }
+
+        @keyframes twinkle {
+
+            0%,
+            100% {
+                opacity: 0.15;
+                transform: scale(0.7);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.5);
+            }
+        }
+
+        /* =====================================
+           HALAMAN AWAL
+        ====================================== */
+
+        #startScreen {
+            position: fixed;
+            inset: 0;
+
+            z-index: 10;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            transition:
+                opacity 0.8s ease,
+                visibility 0.8s ease;
+        }
+
+        #startScreen.hide {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .startContent {
+            text-align: center;
+
+            animation:
+                floating
+                3s
+                ease-in-out
+                infinite;
+        }
+
+        .smallText {
+            margin-bottom: 22px;
+
+            font-size: 14px;
+            letter-spacing: 3px;
+
+            opacity: 0.65;
+        }
+
+        #startButton {
+            padding: 15px 30px;
+
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 50px;
+
+            background: rgba(255, 255, 255, 0.07);
+
+            color: white;
+
+            font-size: 16px;
+            letter-spacing: 1px;
+
+            cursor: pointer;
+
+            backdrop-filter: blur(10px);
+
+            box-shadow:
+                0 0 25px rgba(255, 100, 150, 0.12),
+                inset 0 0 15px rgba(255, 255, 255, 0.03);
+
+            transition: 0.3s ease;
+        }
+
+        #startButton:hover {
+            transform: scale(1.07);
+
+            background:
+                rgba(255, 255, 255, 0.12);
+
+            box-shadow:
+                0 0 35px rgba(255, 80, 130, 0.3);
+        }
+
+        @keyframes floating {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        /* =====================================
+           COUNTDOWN
+        ====================================== */
+
+        #countdown {
+            position: fixed;
+            inset: 0;
+
+            z-index: 20;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            pointer-events: none;
+
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        #countdown.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        #countNumber {
+            font-size: clamp(90px, 20vw, 180px);
+
+            font-weight: 200;
+
+            color: white;
+
+            text-shadow:
+                0 0 15px rgba(255, 255, 255, 0.7),
+                0 0 40px rgba(255, 90, 140, 0.5);
+
+            opacity: 0;
+        }
+
+        #countNumber.animate {
+            animation:
+                countAnimation
+                0.85s
+                ease-in-out
+                forwards;
+        }
+
+        @keyframes countAnimation {
+
+            0% {
+                opacity: 0;
+                transform: scale(0.4);
+            }
+
+            25% {
+                opacity: 1;
+            }
+
+            65% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            100% {
+                opacity: 0;
+                transform: scale(1.45);
+            }
+        }
+
+        /* =====================================
+           AREA FOTO
+        ====================================== */
+
+        #photoScene {
+            position: fixed;
+            inset: 0;
+
+            z-index: 5;
+
+            display: none;
+
+            justify-content: center;
+            align-items: center;
+
+            pointer-events: none;
+        }
+
+        #photoScene.active {
+            display: flex;
+        }
+
+        .photo {
+            position: absolute;
+
+            width: min(280px, 35vw);
+            height: min(360px, 48vw);
+
+            object-fit: cover;
+
+            border-radius: 18px;
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.2);
+
+            box-shadow:
+                0 20px 60px rgba(0, 0, 0, 0.6),
+                0 0 35px rgba(255, 100, 150, 0.12);
+
+            opacity: 0;
+        }
+
+        /* =====================================
+           FOTO KIRI
+        ====================================== */
+
+        #photoLeft {
+            left: -40%;
+
+            top: 50%;
+
+            transform:
+                translateY(-50%)
+                rotate(-10deg)
+                scale(0.85);
+        }
+
+        /* =====================================
+           FOTO KANAN
+        ====================================== */
+
+        #photoRight {
+            right: -40%;
+
+            top: 50%;
+
+            transform:
+                translateY(-50%)
+                rotate(10deg)
+                scale(0.85);
+        }
+
+        /* =====================================
+           ANIMASI FOTO 4 DETIK
+        ====================================== */
+
+        #photoScene.play #photoLeft {
+            animation:
+                moveLeft
+                4s
+                cubic-bezier(0.2, 0.7, 0.2, 1)
+                forwards;
+        }
+
+        #photoScene.play #photoRight {
+            animation:
+                moveRight
+                4s
+                cubic-bezier(0.2, 0.7, 0.2, 1)
+                forwards;
+        }
+
+        @keyframes moveLeft {
+
+            0% {
+                left: -40%;
+
+                opacity: 0;
+
+                transform:
+                    translateY(-50%)
+                    rotate(-12deg)
+                    scale(0.85);
+
+                filter: blur(0);
+            }
+
+            12% {
+                opacity: 1;
+            }
+
+            50% {
+                left: 36%;
+
+                opacity: 1;
+
+                transform:
+                    translateY(-50%)
+                    rotate(-7deg)
+                    scale(1);
+
+                filter: blur(0);
+            }
+
+            65% {
+                left: 42%;
+
+                opacity: 1;
+
+                transform:
+                    translateY(-50%)
+                    rotate(-4deg)
+                    scale(1.03);
+
+                filter: blur(1px);
+            }
+
+            78% {
+                left: 46%;
+
+                opacity: 0.75;
+
+                transform:
+                    translateY(-50%)
+                    rotate(-2deg)
+                    scale(1.08);
+
+                filter: blur(5px);
+            }
+
+            90% {
+                left: 50%;
+
+                opacity: 0.3;
+
+                transform:
+                    translate(-50%, -50%)
+                    rotate(0deg)
+                    scale(1.15);
+
+                filter: blur(12px);
+            }
+
+            100% {
+                left: 50%;
+
+                opacity: 0;
+
+                transform:
+                    translate(-50%, -50%)
+                    rotate(0deg)
+                    scale(1.25);
+
+                filter: blur(22px);
+            }
+        }
+
+        @keyframes moveRight {
+
+            0% {
+                right: -40%;
+
+                opacity: 0;
+
+                transform:
+                    translateY(-50%)
+                    rotate(12deg)
+                    scale(0.85);
+
+                filter: blur(0);
+            }
+
+            12% {
+                opacity: 1;
+            }
+
+            50% {
+                right: 36%;
+
+                opacity: 1;
+
+                transform:
+                    translateY(-50%)
+                    rotate(7deg)
+                    scale(1);
+                
+                filter: blur(0);
+            }
+
+            65% {
+                right: 42%;
+
+                opacity: 1;
+
+                transform:
+                    translateY(-50%)
+                    rotate(4deg)
+                    scale(1.03);
+
+                filter: blur(1px);
+            }
+
+            78% {
+                right: 46%;
+
+                opacity: 0.75;
+
+                transform:
+                    translateY(-50%)
+                    rotate(2deg)
+                    scale(1.08);
+
+                filter: blur(5px);
+            }
+
+            90% {
+                right: 50%;
+
+                opacity: 0.3;
+
+                transform:
+                    translate(50%, -50%)
+                    rotate(0deg)
+                    scale(1.15);
+
+                filter: blur(12px);
+            }
+
+            100% {
+                right: 50%;
+
+                opacity: 0;
+
+                transform:
+                    translate(50%, -50%)
+                    rotate(0deg)
+                    scale(1.25);
+
+                filter: blur(22px);
+            }
+        }
+
+        /* =====================================
+           LOVE
+        ====================================== */
+
+        #loveScene {
+            position: fixed;
+            inset: 0;
+
+            z-index: 8;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            pointer-events: none;
+
+            opacity: 0;
+        }
+
+        #loveScene.show {
+            animation:
+                loveAppear
+                0.8s
+                ease
+                forwards;
+        }
+
+        @keyframes loveAppear {
+
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .loveWrapper {
+            width: 200px;
+            height: 180px;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #loveSvg {
+            width: 200px;
+            height: 180px;
+
+            overflow: visible;
+        }
+
+        #lovePath {
+            fill: transparent;
+
+            stroke: #ff4f81;
+
+            stroke-width: 4;
+
+            stroke-linecap: round;
+            stroke-linejoin: round;
+
+            filter:
+                drop-shadow(0 0 5px #ff4f81)
+                drop-shadow(
+                    0 0 18px
+                    rgba(255, 70, 120, 0.8)
+                );
+
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+        }
+
+        /* Coretan love */
+
+        #loveScene.show #lovePath {
+
+            animation:
+                drawLove
+                2.5s
+                ease-in-out
+                forwards,
+
+                fillLove
+                0.8s
+                ease
+                2.1s
+                forwards;
+        }
+
+        @keyframes drawLove {
+
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        @keyframes fillLove {
+
+            from {
+                fill: transparent;
+            }
+
+            to {
+                fill: rgba(255, 55, 105, 0.85);
+            }
+        }
+
+        /* =====================================
+           LOVE BERDENYUT
+        ====================================== */
+
+        #loveScene.finished .loveWrapper {
+
+            animation:
+                heartbeat
+                1.5s
+                ease-in-out
+                3.1s
+                infinite;
+        }
+
+        @keyframes heartbeat {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            15% {
+                transform: scale(1.08);
+            }
+
+            30% {
+                transform: scale(1);
+            }
+
+            45% {
+                transform: scale(1.06);
+            }
+
+            60% {
+                transform: scale(1);
+            }
+        }
+
+        /* =====================================
+           PESAN
+        ====================================== */
+
+        #message {
+            position: fixed;
+
+            left: 50%;
+            bottom: 17%;
+
+            z-index: 9;
+
+            width: 90%;
+
+            text-align: center;
+
+            transform:
+                translateX(-50%);
+
+            opacity: 0;
+
+            font-size: 17px;
+
+            letter-spacing: 2px;
+
+            color:
+                rgba(255, 255, 255, 0.9);
+
+            text-shadow:
+                0 0 10px
+                rgba(255, 100, 150, 0.6);
+
+            pointer-events: none;
+        }
+
+        #message.show {
+
+            animation:
+                messageAppear
+                1.5s
+                ease
+                2.7s
+                forwards;
+        }
+
+        @keyframes messageAppear {
+
+            from {
+                opacity: 0;
+
+                transform:
+                    translateX(-50%)
+                    translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+
+                transform:
+                    translateX(-50%)
+                    translateY(0);
+            }
+        }
+
+        /* =====================================
+           RESPONSIVE HP
+        ====================================== */
+
+        @media (max-width: 600px) {
+
+            .smallText {
+                font-size: 12px;
+                letter-spacing: 2px;
+            }
+
+            #startButton {
+                padding: 14px 25px;
+
+                font-size: 14px;
+            }
+
+            .photo {
+                width: 150px;
+                height: 220px;
+
+                border-radius: 14px;
+            }
+
+            #loveSvg {
+                width: 165px;
+                height: 150px;
+            }
+
+            .loveWrapper {
+                width: 165px;
+                height: 150px;
+            }
+
+            #message {
+                bottom: 18%;
+
+                font-size: 14px;
+
+                letter-spacing: 1.5px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =====================================
+         BINTANG
+    ====================================== -->
+
+    <div id="stars"></div>
+
+
+    <!-- =====================================
+         HALAMAN AWAL
+    ====================================== -->
+
+    <section id="startScreen">
+
+        <div class="startContent">
+
+            <div class="smallText">
+                ada sesuatu buat kamu...
+            </div>
+
+            <button id="startButton">
+                Coba klik di sini ✨
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================
+         COUNTDOWN
+    ====================================== -->
+
+    <section id="countdown">
+
+        <div id="countNumber">
+            3
+        </div>
+
+    </section>
+
+
+    <!-- =====================================
+         FOTO
+    ====================================== -->
+
+    <section id="photoScene">
+
+        <img
+            id="photoLeft"
+            class="photo"
+            src="foto1.jpg"
+            alt="Foto pertama"
+        >
+
+        <img
+            id="photoRight"
+            class="photo"
+            src="foto2.jpg"
+            alt="Foto kedua"
+        >
+
+    </section>
+
+
+    <!-- =====================================
+         LOVE
+    ====================================== -->
+
+    <section id="loveScene">
+
+        <div class="loveWrapper">
+
+            <svg
+                id="loveSvg"
+                viewBox="0 0 200 180"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+
+                <path
+                    id="lovePath"
+                    d="
+                    M 100 160
+
+                    C 90 150,
+                      25 105,
+                      25 55
+
+                    C 25 25,
+                      45 10,
+                      68 10
+
+                    C 85 10,
+                      96 20,
+                      100 35
+
+                    C 104 20,
+                      115 10,
+                      132 10
+
+                    C 155 10,
+                      175 25,
+                      175 55
+
+                    C 175 105,
+                      110 150,
+                      100 160
+
+                    Z
+                    "
+                />
+
+            </svg>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================
+         PESAN
+    ====================================== -->
+
+    <div id="message">
+        cuma mau bilang... ❤️
+    </div>
+
+
+    <script>
+
+        /* =====================================
+           BIKIN BINTANG OTOMATIS
+        ====================================== */
+
+        const stars =
+            document.getElementById("stars");
+
+        const jumlahBintang = 130;
+
+        for (
+            let i = 0;
+            i < jumlahBintang;
+            i++
+        ) {
+
+            const star =
+                document.createElement("div");
+
+            star.classList.add("star");
+
+            star.style.left =
+                Math.random() * 100 + "%";
+
+            star.style.top =
+                Math.random() * 100 + "%";
+
+            const size =
+                Math.random() * 2 + 1;
+
+            star.style.width =
+                size + "px";
+
+            star.style.height =
+                size + "px";
+
+            star.style.animationDuration =
+                (Math.random() * 3 + 2) + "s";
+
+            star.style.animationDelay =
+                (Math.random() * 4) + "s";
+
+            stars.appendChild(star);
+        }
+
+
+        /* =====================================
+           ELEMENT
+        ====================================== */
+
+        const startScreen =
+            document.getElementById("startScreen");
+
+        const startButton =
+            document.getElementById("startButton");
+
+        const countdown =
+            document.getElementById("countdown");
+
+        const countNumber =
+            document.getElementById("countNumber");
+
+        const photoScene =
+            document.getElementById("photoScene");
+
+        const loveScene =
+            document.getElementById("loveScene");
+
+        const message =
+            document.getElementById("message");
+
+
+        /* =====================================
+           FUNGSI COUNTDOWN
+        ====================================== */
+
+        function showNumber(number) {
+
+            countNumber.classList.remove("animate");
+
+            /*
+                Memaksa browser melakukan
+                reset animasi.
+            */
+
+            void countNumber.offsetWidth;
+
+            countNumber.textContent = number;
+
+            countNumber.classList.add("animate");
+        }
+
+
+        /* =====================================
+           KLIK TOMBOL
+        ====================================== */
+
+        startButton.addEventListener(
+            "click",
+            function () {
+
+                /* -----------------------------
+                   HILANGKAN HALAMAN AWAL
+                ------------------------------ */
+
+                startScreen.classList.add("hide");
+
+
+                /* -----------------------------
+                   TAMPILKAN COUNTDOWN
+                ------------------------------ */
+
+                countdown.classList.add("active");
+
+
+                /* -----------------------------
+                   3
+                ------------------------------ */
+
+                showNumber("3");
+
+
+                /* -----------------------------
+                   2
+                ------------------------------ */
+
+                setTimeout(function () {
+
+                    showNumber("2");
+
+                }, 1000);
+
+
+                /* -----------------------------
+                   1
+                ------------------------------ */
+
+                setTimeout(function () {
+
+                    showNumber("1");
+
+                }, 2000);
+
+
+                /* -----------------------------
+                   SETELAH COUNTDOWN
+                ------------------------------ */
+
+                setTimeout(function () {
+
+                    countdown.classList.remove(
+                        "active"
+                    );
+
+
+                    /* -------------------------
+                       TAMPILKAN FOTO
+                    -------------------------- */
+
+                    photoScene.classList.add(
+                        "active"
+                    );
+
+
+                    /*
+                        Reset animasi jika
+                        halaman dimainkan ulang.
+                    */
+
+                    void photoScene.offsetWidth;
+
+
+                    photoScene.classList.add(
+                        "play"
+                    );
+
+
+                    /* -------------------------
+                       FOTO BERLANGSUNG 4 DETIK
+                    -------------------------- */
+
+                    setTimeout(function () {
+
+                        /*
+                            Sembunyikan area foto
+                        */
+
+                        photoScene.style.display =
+                            "none";
+
+
+                        /*
+                            Munculkan love
+                        */
+
+                        loveScene.classList.add(
+                            "show"
+                        );
+
+
+                        /* ---------------------
+                           LOVE SELESAI DIGAMBAR
+                        ---------------------- */
+
+                        setTimeout(function () {
+
+                            loveScene.classList.add(
+                                "finished"
+                            );
+
+
+                            /*
+                                Munculkan tulisan
+                            */
+
+                            message.classList.add(
+                                "show"
+                            );
+
+                        }, 3100);
+
+                    }, 4000);
+
+                }, 3000);
+
+            }
+        );
+
+    </script>
+
+</body>
+</html>
